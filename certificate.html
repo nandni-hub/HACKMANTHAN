@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Certificate Preview - EventEye</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -17,7 +18,7 @@
       align-items: center;
       min-height: 100vh;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Montserrat', sans-serif;
       padding: 20px;
     }
 
@@ -41,8 +42,9 @@
 
     .logo {
       font-size: 20px;
-      font-weight: 700;
+      font-weight: 800;
       color: #4f46e5;
+      letter-spacing: 1px;
     }
 
     .btn-group {
@@ -55,25 +57,27 @@
       border: none;
       border-radius: 6px;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       transition: all 0.3s;
     }
 
     .btn-download {
-      background: #4f46e5;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
       color: white;
+      box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
     }
 
     .btn-download:hover {
-      background: #4338ca;
+      background: linear-gradient(135deg, #4338ca, #6d28d9);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+      box-shadow: 0 6px 12px rgba(79, 70, 229, 0.4);
     }
 
     .btn-back {
       background: #e5e7eb;
       color: #374151;
+      font-weight: 600;
     }
 
     .btn-back:hover {
@@ -83,43 +87,47 @@
     .certificate {
       width: 100%;
       aspect-ratio: 4/3;
-      border: 10px solid #4f46e5;
+      border: 12px solid;
+      border-image: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899) 1;
       padding: 50px;
       background: linear-gradient(to bottom, #ffffff 0%, #f9fafb 100%);
       text-align: center;
-      box-shadow: inset 0 0 0 2px #818cf8;
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-    }
-
-    .certificate::before,
-    .certificate::after {
-      content: '★';
-      position: absolute;
-      font-size: 40px;
-      color: #fbbf24;
+      overflow: hidden;
     }
 
     .certificate::before {
-      top: 20px;
-      left: 20px;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="none" stroke="%23f0f0f0" stroke-width="0.5" x="0" y="0" width="100" height="100"/></svg>');
+      opacity: 0.3;
+      z-index: 0;
     }
 
-    .certificate::after {
-      top: 20px;
-      right: 20px;
+    .certificate-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
     }
 
     .certificate-header {
-      font-size: 42px;
-      font-weight: 700;
-      color: #4f46e5;
+      font-family: 'Playfair Display', serif;
+      font-size: 46px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-bottom: 10px;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
     }
 
     .certificate-subheader {
@@ -127,30 +135,40 @@
       color: #6b7280;
       margin-bottom: 30px;
       font-style: italic;
+      font-weight: 500;
     }
 
     .participant-name {
-      font-size: 36px;
-      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 800;
       color: #111827;
       margin: 20px 0;
       padding: 10px 30px;
-      border-bottom: 3px solid #4f46e5;
+      border-bottom: 3px solid;
+      border-image: linear-gradient(to right, #4f46e5, #7c3aed, #ec4899) 1;
       display: inline-block;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .certificate-text {
-      font-size: 16px;
+      font-size: 18px;
       color: #4b5563;
       margin: 15px 0;
       line-height: 1.6;
+      font-weight: 500;
     }
 
     .event-name {
-      font-size: 28px;
-      font-weight: 600;
-      color: #4f46e5;
+      font-size: 32px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin: 15px 0;
+      padding: 10px 20px;
+      border-radius: 8px;
+      display: inline-block;
     }
 
     .event-details {
@@ -158,7 +176,7 @@
       justify-content: center;
       gap: 40px;
       margin-top: 30px;
-      font-size: 14px;
+      font-size: 16px;
       color: #6b7280;
     }
 
@@ -166,12 +184,22 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 15px;
+      border-radius: 8px;
+      background: rgba(79, 70, 229, 0.05);
+      min-width: 150px;
     }
 
     .detail-label {
+      font-weight: 700;
+      color: #4f46e5;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .detail-value {
       font-weight: 600;
       color: #374151;
-      margin-bottom: 5px;
     }
 
     .certificate-footer {
@@ -181,6 +209,42 @@
       transform: translateX(-50%);
       font-size: 12px;
       color: #9ca3af;
+      font-weight: 500;
+    }
+
+    .decoration-corner {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      z-index: 0;
+    }
+
+    .decoration-corner.tl {
+      top: 20px;
+      left: 20px;
+      border-top: 4px solid #4f46e5;
+      border-left: 4px solid #4f46e5;
+    }
+
+    .decoration-corner.tr {
+      top: 20px;
+      right: 20px;
+      border-top: 4px solid #7c3aed;
+      border-right: 4px solid #7c3aed;
+    }
+
+    .decoration-corner.bl {
+      bottom: 20px;
+      left: 20px;
+      border-bottom: 4px solid #ec4899;
+      border-left: 4px solid #ec4899;
+    }
+
+    .decoration-corner.br {
+      bottom: 20px;
+      right: 20px;
+      border-bottom: 4px solid #4f46e5;
+      border-right: 4px solid #4f46e5;
     }
 
     @media print {
@@ -201,17 +265,21 @@
         padding: 30px;
       }
       .certificate-header {
-        font-size: 28px;
+        font-size: 32px;
       }
       .participant-name {
-        font-size: 24px;
+        font-size: 28px;
       }
       .event-name {
-        font-size: 20px;
+        font-size: 24px;
       }
       .event-details {
         flex-direction: column;
         gap: 15px;
+      }
+      .detail-item {
+        min-width: auto;
+        width: 100%;
       }
     }
   </style>
@@ -227,23 +295,30 @@
     </div>
 
     <div class="certificate" id="certificate">
-      <div class="certificate-header">Certificate of Participation</div>
-      <div class="certificate-subheader">This is to certify that</div>
+      <div class="decoration-corner tl"></div>
+      <div class="decoration-corner tr"></div>
+      <div class="decoration-corner bl"></div>
+      <div class="decoration-corner br"></div>
       
-      <div class="participant-name" id="name">[Participant Name]</div>
-      
-      <div class="certificate-text">has successfully participated in</div>
-      
-      <div class="event-name" id="event">[Event Name]</div>
-      
-      <div class="event-details">
-        <div class="detail-item">
-          <div class="detail-label">📅 Date</div>
-          <div id="date">[Event Date]</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-label">🏢 Organized by</div>
-          <div id="organizer">[Organizer]</div>
+      <div class="certificate-content">
+        <div class="certificate-header">Certificate of Participation</div>
+        <div class="certificate-subheader">This is to certify that</div>
+        
+        <div class="participant-name" id="name">[Participant Name]</div>
+        
+        <div class="certificate-text">has successfully participated in</div>
+        
+        <div class="event-name" id="event">[Event Name]</div>
+        
+        <div class="event-details">
+          <div class="detail-item">
+            <div class="detail-label">📅 Date</div>
+            <div class="detail-value" id="date">[Event Date]</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">🏢 Organized by</div>
+            <div class="detail-value" id="organizer">[Organizer]</div>
+          </div>
         </div>
       </div>
 
