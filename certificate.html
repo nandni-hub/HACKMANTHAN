@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificate Preview - EventEye</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #4f46e5;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-download {
+      background: #4f46e5;
+      color: white;
+    }
+
+    .btn-download:hover {
+      background: #4338ca;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+    }
+
+    .btn-back {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .btn-back:hover {
+      background: #d1d5db;
+    }
+
+    .certificate {
+      width: 100%;
+      aspect-ratio: 4/3;
+      border: 10px solid #4f46e5;
+      padding: 50px;
+      background: linear-gradient(to bottom, #ffffff 0%, #f9fafb 100%);
+      text-align: center;
+      box-shadow: inset 0 0 0 2px #818cf8;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .certificate::before,
+    .certificate::after {
+      content: '★';
+      position: absolute;
+      font-size: 40px;
+      color: #fbbf24;
+    }
+
+    .certificate::before {
+      top: 20px;
+      left: 20px;
+    }
+
+    .certificate::after {
+      top: 20px;
+      right: 20px;
+    }
+
+    .certificate-header {
+      font-size: 42px;
+      font-weight: 700;
+      color: #4f46e5;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .certificate-subheader {
+      font-size: 18px;
+      color: #6b7280;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+
+    .participant-name {
+      font-size: 36px;
+      font-weight: 700;
+      color: #111827;
+      margin: 20px 0;
+      padding: 10px 30px;
+      border-bottom: 3px solid #4f46e5;
+      display: inline-block;
+    }
+
+    .certificate-text {
+      font-size: 16px;
+      color: #4b5563;
+      margin: 15px 0;
+      line-height: 1.6;
+    }
+
+    .event-name {
+      font-size: 28px;
+      font-weight: 600;
+      color: #4f46e5;
+      margin: 15px 0;
+    }
+
+    .event-details {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 5px;
+    }
+
+    .certificate-footer {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+      .controls {
+        display: none;
+      }
+      .container {
+        box-shadow: none;
+        padding: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .certificate {
+        padding: 30px;
+      }
+      .certificate-header {
+        font-size: 28px;
+      }
+      .participant-name {
+        font-size: 24px;
+      }
+      .event-name {
+        font-size: 20px;
+      }
+      .event-details {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="controls">
+      <div class="logo">EventEye CertGen</div>
+      <div class="btn-group">
+        <button class="btn btn-download" onclick="window.print()">📥 Download PDF</button>
+        <button class="btn btn-back" onclick="window.close()">← Back</button>
+      </div>
+    </div>
+
+    <div class="certificate" id="certificate">
+      <div class="certificate-header">Certificate of Participation</div>
+      <div class="certificate-subheader">This is to certify that</div>
+      
+      <div class="participant-name" id="name">[Participant Name]</div>
+      
+      <div class="certificate-text">has successfully participated in</div>
+      
+      <div class="event-name" id="event">[Event Name]</div>
+      
+      <div class="event-details">
+        <div class="detail-item">
+          <div class="detail-label">📅 Date</div>
+          <div id="date">[Event Date]</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">🏢 Organized by</div>
+          <div id="organizer">[Organizer]</div>
+        </div>
+      </div>
+
+      <div class="certificate-footer">Certificate ID: CERT-<span id="cert-id"></span></div>
+    </div>
+  </div>
+
+  <script>
+    // Get URL parameters
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById("name").textContent = params.get("name") || "John Doe";
+    document.getElementById("event").textContent = params.get("event") || "Sample Event";
+    
+    // Format date nicely
+    const dateParam = params.get("date");
+    if (dateParam) {
+      const date = new Date(dateParam);
+      const formatted = date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+      document.getElementById("date").textContent = formatted;
+    } else {
+      document.getElementById("date").textContent = "October 3, 2025";
+    }
+    
+    document.getElementById("organizer").textContent = params.get("organizer") || "EventEye Team";
+
+    // Generate unique certificate ID
+    document.getElementById("cert-id").textContent = Math.random().toString(36).substr(2, 9).toUpperCase();
+  </script>
+</body>
+</html>
